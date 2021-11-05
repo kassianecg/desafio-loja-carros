@@ -1,7 +1,7 @@
 ;(function (win, doc) {
 	'use strict'
 
-	function DOM(elements) {
+	const DOM = elements => {
 		if (!(this instanceof DOM)) {
 			return new DOM(elements)
 		}

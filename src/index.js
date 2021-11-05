@@ -31,7 +31,7 @@
   que será nomeado de "app".
   */
 
-	var app = (function () {
+	var app = (() => {
 		return {
 			init: function init() {
 				console.log('app init')
