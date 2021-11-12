@@ -36,7 +36,7 @@
   que será nomeado de "app". - Feito
   */
 
-	var app = (function appController() {
+	let app = (function appController() {
 		return {
 			init: function init() {
 				this.companyInfo()
@@ -45,7 +45,7 @@
 			},
 
 			companyInfo: function companyInfo() {
-				var ajax = new XMLHttpRequest()
+				let ajax = new XMLHttpRequest()
 				ajax.open('GET', 'company.json', true)
 				ajax.send()
 				ajax.onreadystatechange = this.getCompanyInfo
@@ -58,9 +58,9 @@
 			getCompanyInfo: function getCompanyInfo() {
 				if (!app.requestOk.call(this)) return
 
-				var response = JSON.parse(this.responseText)
-				var $title = app.getElement('title')
-				var $tel = app.getElement('phone')
+				let response = JSON.parse(this.responseText)
+				let $title = app.getElement('title')
+				let $tel = app.getElement('phone')
 				$title.textContent = response.name
 				$tel.textContent = response.phone
 			},
@@ -76,13 +76,13 @@
 			handleSubmit: function handleSubmit(e) {
 				e.preventDefault()
 
-				var $url = app.getElement('urlImage').value
-				var $brand = app.getElement('brand').value
-				var $year = app.getElement('year').value
-				var $plate = app.getElement('plate').value
-				var $cor = app.getElement('color').value
+				let $url = app.getElement('urlImage').value
+				let $brand = app.getElement('brand').value
+				let $year = app.getElement('year').value
+				let $plate = app.getElement('plate').value
+				let $cor = app.getElement('color').value
 
-				var ajax = new XMLHttpRequest()
+				let ajax = new XMLHttpRequest()
 				ajax.open('POST', 'http://localhost:3000/car')
 				ajax.setRequestHeader(
 					'Content-Type',
@@ -94,8 +94,8 @@
 
 				ajax.onreadystatechange = function () {
 					if (ajax.readyState === 4) {
-						var $tableCar = app.getElement('table-car')
-						var count = $tableCar.children.length
+						let $tableCar = app.getElement('table-car')
+						let count = $tableCar.children.length
 						for (let i = 0; i < count; i++) {
 							$tableCar.children[0].remove()
 						}
@@ -104,17 +104,33 @@
 				}
 			},
 
+			deleteCar: function deleteCar(plate) {
+				let ajax = new XMLHttpRequest()
+				ajax.open('DELETE', 'http://localhost:3000/car')
+				ajax.setRequestHeader(
+					'Content-Type',
+					'application/x-www-form-urlencoded'
+				)
+				ajax.send(`plate=${plate}`)
+
+				ajax.onreadystatechange = function () {
+					if (ajax.readyState === 4) alert('registro removido com sucesso!')
+				}
+			},
+
 			createEl: function createEl(element) {
 				return document.createElement(element)
 			},
 
 			removeRow: function removeRow(event) {
-				var $tr = document.getElementById(event.target.id)
+				let $plate = event.target.getAttribute('data-plate')
+				let $tr = $(`[data-plate="${$plate}"]`).get()
 				$tr.remove()
+				app.deleteCar($plate)
 			},
 
 			loadListCar: function loadListCar() {
-				var ajax = new XMLHttpRequest()
+				let ajax = new XMLHttpRequest()
 				ajax.open('GET', 'http://localhost:3000/car')
 				ajax.send()
 				ajax.onreadystatechange = this.getDataCar
@@ -123,27 +139,26 @@
 			getDataCar: function getDataCar() {
 				if (!app.requestOk.call(this)) return
 
-				var response = JSON.parse(this.responseText)
-				var $tableCar = app.getElement('table-car')
+				let response = JSON.parse(this.responseText)
+				let $tableCar = app.getElement('table-car')
 				response.map(car => {
 					$tableCar.appendChild(app.createNewCar(car))
 				})
 			},
 
 			createNewCar: function createNewCar(car) {
-				var id = Math.floor(Math.random() * 1000)
-				var $fragment = document.createDocumentFragment()
-				var $tr = document.createElement('tr')
-				$tr.setAttribute('id', id)
+				let $fragment = document.createDocumentFragment()
+				let $tr = document.createElement('tr')
+				$tr.setAttribute('data-plate', car.plate)
 
-				var $tdImage = this.createEl('td')
-				var $image = this.createEl('img')
-				var $tdBrand = this.createEl('td')
-				var $tdYear = this.createEl('td')
-				var $tdPlate = this.createEl('td')
-				var $tdCor = this.createEl('td')
-				var $tdRemove = this.createEl('td')
-				var $buttonRemove = this.createEl('button')
+				let $tdImage = this.createEl('td')
+				let $image = this.createEl('img')
+				let $tdBrand = this.createEl('td')
+				let $tdYear = this.createEl('td')
+				let $tdPlate = this.createEl('td')
+				let $tdCor = this.createEl('td')
+				let $tdRemove = this.createEl('td')
+				let $buttonRemove = this.createEl('button')
 
 				$image.setAttribute('src', car.image)
 				$tdImage.appendChild($image)
@@ -153,7 +168,7 @@
 				$tdCor.textContent = car.color
 
 				$buttonRemove.setAttribute('type', 'button')
-				$buttonRemove.setAttribute('id', id)
+				$buttonRemove.setAttribute('data-plate', car.plate)
 				$buttonRemove.textContent = 'remover'
 				$buttonRemove.addEventListener('click', this.removeRow)
 				$tdRemove.appendChild($buttonRemove)
