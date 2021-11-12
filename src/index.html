@@ -9,52 +9,51 @@
 	</head>
 	<body>
 		<header>
-			<h1>
-				<span data-js="company-name"></span> -
-				<span data-js="company-phone"></span>
-			</h1>
+			<h1 data-js="title"></h1>
+			<h4 data-js="phone"></h4>
 		</header>
-		<form action="/" data-js="form-register">
-			<ul>
-				<li>
-					<label>Imagem do carro:</label>
-					<input type="url" data-js="image" />
-				</li>
-				<li>
-					<label>Marca / Modelo:</label>
-					<input type="text" data-js="brand-model" />
-				</li>
-				<li>
-					<label>Ano:</label>
-					<input type="text" data-js="year" />
-				</li>
-				<li>
-					<label>Placa:</label>
-					<input type="text" data-js="plate" />
-				</li>
-				<li>
-					<label>Cor:</label>
-					<input type="text" data-js="color" />
-				</li>
-				<li>
-					<button type="submit">Cadastrar</button>
-				</li>
-			</ul>
+
+		<form action="/" data-js="formCadastro">
+			<label for="urlImage">
+				URL:
+				<input type="url" data-js="urlImage" id="url-image" />
+			</label>
+			<label for="brand">
+				Marca:
+				<input type="text" data-js="brand" id="brand" />
+			</label>
+			<label for="year">
+				Ano:
+				<input type="text" data-js="year" id="year" />
+			</label>
+			<label for="licencePlate">
+				Placa:
+				<input type="text" data-js="plate" id="licence-plate" />
+			</label>
+			<label for="color">
+				Cor:
+				<input type="text" data-js="color" id="color" />
+			</label>
+
+			<button type="submit">Cadastrar</button>
 		</form>
-
-		<table>
-			<thead>
-				<tr>
-					<th>Imagem</th>
-					<th>Marca / Modelo</th>
-					<th>Ano</th>
-					<th>Placa</th>
-					<th>Cor</th>
-				</tr>
-			</thead>
-
-			<tbody data-js="table-car"></tbody>
-		</table>
+		<br />
+		<hr />
+		<div class="table">
+			<table>
+				<thead>
+					<tr data-js="ths" class="th">
+						<th>url</th>
+						<th>marca</th>
+						<th>ano</th>
+						<th>placa</th>
+						<th>cor</th>
+						<th>remover</th>
+					</tr>
+				</thead>
+				<tbody data-js="table-car"></tbody>
+			</table>
+		</div>
 
 		<script src="dom.js"></script>
 		<script src="index.js"></script>
