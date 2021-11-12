@@ -104,6 +104,20 @@
 				}
 			},
 
+			deleteCar: function deleteCar(plate) {
+				var ajax = new XMLHttpRequest()
+				ajax.open('DELETE', 'http://localhost:3000/car')
+				ajax.setRequestHeader(
+					'Content-Type',
+					'application/x-www-form-urlencoded'
+				)
+				ajax.send(`plate=${plate}`)
+
+				ajax.onreadystatechange = function () {
+					if (ajax.readyState === 4) alert('registro removido com sucesso!')
+				}
+			},
+
 			createEl: function createEl(element) {
 				return document.createElement(element)
 			},
